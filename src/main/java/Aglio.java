@@ -24,7 +24,7 @@ public class Aglio {
         try (Scanner scanner = new Scanner(System.in)) {
             // Read and echo user input until "bye"
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
+                String line = scanner.nextLine();
 
                 if (line.equals("bye")) {
                     break;
