@@ -1,3 +1,5 @@
+package aglio;
+
 import java.util.Scanner;
 
 /**

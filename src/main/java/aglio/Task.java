@@ -1,3 +1,5 @@
+package aglio;
+
 /**
  * Represents a task with a description and a done status.
  */
