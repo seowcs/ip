@@ -20,8 +20,7 @@ public class Aglio {
         System.out.println("What can I do for you?");
         System.out.println("____________________________________________________________");
 
-        String[] tasks = new String[100];
-        boolean[] isDone = new boolean[100]; // tracks whether each task is marked as done
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         // try-with-resources ensures the scanner is closed when done
@@ -39,24 +38,23 @@ public class Aglio {
                     // Print all stored tasks with their done status
                     System.out.println(" Here are the tasks in your list:");
                     for (int i = 0; i < taskCount; i++) {
-                        String statusIcon = isDone[i] ? "[X]" : "[ ]";
-                        System.out.println(" " + (i + 1) + "." + statusIcon + " " + tasks[i]);
+                        System.out.println(" " + (i + 1) + "." + tasks[i]);
                     }
                 } else if (line.startsWith("mark ")) {
                     // Mark a task as done by its 1-based number
                     int index = Integer.parseInt(line.substring(5)) - 1;
-                    isDone[index] = true;
+                    tasks[index].markAsDone();
                     System.out.println(" Nice! I've marked this task as done:");
-                    System.out.println("   [X] " + tasks[index]);
+                    System.out.println("   " + tasks[index]);
                 } else if (line.startsWith("unmark ")) {
                     // Mark a task as not done by its 1-based number
                     int index = Integer.parseInt(line.substring(7)) - 1;
-                    isDone[index] = false;
+                    tasks[index].markAsNotDone();
                     System.out.println(" OK, I've marked this task as not done yet:");
-                    System.out.println("   [ ] " + tasks[index]);
-                }else {
+                    System.out.println("   " + tasks[index]);
+                } else {
                     // Store the task and confirm
-                    tasks[taskCount] = line;
+                    tasks[taskCount] = new Task(line);
                     taskCount++;
                     System.out.println(" added: " + line);
                 }
