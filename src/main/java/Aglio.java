@@ -21,6 +21,7 @@ public class Aglio {
         System.out.println("____________________________________________________________");
 
         String[] tasks = new String[100];
+        boolean[] isDone = new boolean[100]; // tracks whether each task is marked as done
         int taskCount = 0;
 
         // try-with-resources ensures the scanner is closed when done
@@ -35,10 +36,18 @@ public class Aglio {
                 System.out.println("____________________________________________________________");
 
                 if (line.equals("list")) {
-                    // Print all stored tasks numbered
+                    // Print all stored tasks with their done status
+                    System.out.println(" Here are the tasks in your list:");
                     for (int i = 0; i < taskCount; i++) {
-                        System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                        String statusIcon = isDone[i] ? "[X]" : "[ ]";
+                        System.out.println(" " + (i + 1) + "." + statusIcon + " " + tasks[i]);
                     }
+                } else if (line.startsWith("mark ")) {
+                    // Mark a task as done by its 1-based number
+                    int index = Integer.parseInt(line.substring(5)) - 1;
+                    isDone[index] = true;
+                    System.out.println(" Nice! I've marked this task as done:");
+                    System.out.println("   [X] " + tasks[index]);
                 } else {
                     // Store the task and confirm
                     tasks[taskCount] = line;
