@@ -47,6 +47,21 @@ Reference: <https://se-education.org/guides/conventions/java/intermediate.html>
 
 ## Git
 
+All commits and branches in this project **must** follow the SE-Education
+Git conventions. The full rules are captured in the `seedu-git-standard`
+skill (`.claude/skills/seedu-git-standard/SKILL.md`).
+
+Before creating any commit, verify the message against that skill's
+checklist. Key points to watch:
+
+* Subject line: 50 chars or fewer (hard limit 72), imperative mood,
+  capitalized, no trailing period.
+* Body (for non-trivial commits): blank line after subject, wrapped at
+  72 chars, explains WHAT and WHY (not HOW).
+* Branch names: kebab-case with meaningful keywords; include issue number
+  when applicable.
+
 Use lightweight tags unless the user requests an annotated tag.
-When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
+
+Reference: <https://se-education.org/guides/conventions/git.html>
