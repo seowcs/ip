@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 /**
- * Aglio is a personal chatbot that greets the user, echoes their input,
- * and exits when the user types "bye".
+ * Aglio is a personal chatbot that stores tasks entered by the user,
+ * lists them on request, and exits when the user types "bye".
  */
 public class Aglio {
     public static void main(String[] args) {
@@ -20,9 +20,11 @@ public class Aglio {
         System.out.println("What can I do for you?");
         System.out.println("____________________________________________________________");
 
+        String[] tasks = new String[100];
+        int taskCount = 0;
+
         // try-with-resources ensures the scanner is closed when done
         try (Scanner scanner = new Scanner(System.in)) {
-            // Read and echo user input until "bye"
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
 
@@ -31,7 +33,19 @@ public class Aglio {
                 }
 
                 System.out.println("____________________________________________________________");
-                System.out.println(line);
+
+                if (line.equals("list")) {
+                    // Print all stored tasks numbered
+                    for (int i = 0; i < taskCount; i++) {
+                        System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                    }
+                } else {
+                    // Store the task and confirm
+                    tasks[taskCount] = line;
+                    taskCount++;
+                    System.out.println(" added: " + line);
+                }
+
                 System.out.println("____________________________________________________________");
             }
         }
