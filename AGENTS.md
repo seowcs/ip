@@ -27,6 +27,24 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Java coding standard
+
+All Java code in this project **must** follow the SE-Education intermediate
+Java coding standard. The full rules are captured in the
+`seedu-java-coding-standard` skill (`.claude/skills/seedu-java-coding-standard/SKILL.md`).
+
+Before reporting any Java code task as complete, verify the touched files
+against that skill's checklist. Key points to watch:
+
+* Every class must have a `package` declaration (Rule 27).
+* No wildcard imports (Rule 29).
+* Always use braces for single-statement `if`/`for`/`while` bodies (Rules 33--35).
+* K&R brace style throughout (Rule 18).
+* 4-space indentation, no tabs (Rule 13).
+* Line length hard limit 120 characters (Rule 14).
+
+Reference: <https://se-education.org/guides/conventions/java/intermediate.html>
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
