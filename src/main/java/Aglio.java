@@ -48,7 +48,13 @@ public class Aglio {
                     isDone[index] = true;
                     System.out.println(" Nice! I've marked this task as done:");
                     System.out.println("   [X] " + tasks[index]);
-                } else {
+                } else if (line.startsWith("unmark ")) {
+                    // Mark a task as not done by its 1-based number
+                    int index = Integer.parseInt(line.substring(7)) - 1;
+                    isDone[index] = false;
+                    System.out.println(" OK, I've marked this task as not done yet:");
+                    System.out.println("   [ ] " + tasks[index]);
+                }else {
                     // Store the task and confirm
                     tasks[taskCount] = line;
                     taskCount++;
