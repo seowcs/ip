@@ -54,6 +54,13 @@ public class Aglio {
                     tasks[index].markAsNotDone();
                     System.out.println(" OK, I've marked this task as not done yet:");
                     System.out.println("   " + tasks[index]);
+                } else if (line.startsWith("todo ")) {
+                    String description = line.substring(5);
+                    tasks[taskCount] = new Todo(description);
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + tasks[taskCount]);
+                    taskCount++;
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
                 } else {
                     // Store the task and confirm
                     tasks[taskCount] = new Task(line);
