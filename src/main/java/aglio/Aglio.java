@@ -8,6 +8,7 @@ import java.util.Scanner;
  */
 public class Aglio {
     private static final int MAX_TASKS = 100;
+    private static final String DIVIDER = "____________________________________________________________";
 
     public static void main(String[] args) {
         String banner = "    _         _ _       \n"
@@ -18,11 +19,11 @@ public class Aglio {
                 + "        |___/           \n";
 
         // Greet the user
-        System.out.println("____________________________________________________________");
+        System.out.println(DIVIDER);
         System.out.println(banner);
         System.out.println("Hello, I am Aglio.");
         System.out.println("What can I do for you?");
-        System.out.println("____________________________________________________________");
+        System.out.println(DIVIDER);
 
         Task[] tasks = new Task[MAX_TASKS];
         int taskCount = 0;
@@ -36,7 +37,7 @@ public class Aglio {
                     break;
                 }
 
-                System.out.println("____________________________________________________________");
+                System.out.println(DIVIDER);
 
                 if (line.equals("list")) {
                     // Print all stored tasks with their done status
@@ -93,13 +94,13 @@ public class Aglio {
                     System.out.println(" added: " + line);
                 }
 
-                System.out.println("____________________________________________________________");
+                System.out.println(DIVIDER);
             }
         }
 
         // Say goodbye
-        System.out.println("____________________________________________________________");
+        System.out.println(DIVIDER);
         System.out.println("Bye. Hope to see you again soon!");
-        System.out.println("____________________________________________________________");
+        System.out.println(DIVIDER);
     }
 }
