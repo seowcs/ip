@@ -65,3 +65,15 @@ Use lightweight tags unless the user requests an annotated tag.
 Do not commit or push unless explicitly asked.
 
 Reference: <https://se-education.org/guides/conventions/git.html>
+
+## UI testing
+
+After modifying any Java source file in `src/main/java/aglio/`, you
+**must** do the following before reporting the task as complete:
+
+1. **Update the test plan** -- review `test/ui-test-plan.md` and add,
+   remove, or update test cases so they reflect the current expected
+   behaviour of the program.
+2. **Run the `test-ui` skill** -- invoke `/test-ui` and ensure all
+   test cases pass. If any test fails, fix the code or the test plan
+   as appropriate and re-run until all tests pass.
