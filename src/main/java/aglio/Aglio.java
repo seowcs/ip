@@ -7,6 +7,8 @@ import java.util.Scanner;
  * lists them on request, and exits when the user types "bye".
  */
 public class Aglio {
+    private static final int MAX_TASKS = 100;
+
     public static void main(String[] args) {
         String banner = "    _         _ _       \n"
                 + "   / \\   __ _| (_) ___  \n"
@@ -22,7 +24,7 @@ public class Aglio {
         System.out.println("What can I do for you?");
         System.out.println("____________________________________________________________");
 
-        Task[] tasks = new Task[100];
+        Task[] tasks = new Task[MAX_TASKS];
         int taskCount = 0;
 
         // try-with-resources ensures the scanner is closed when done
