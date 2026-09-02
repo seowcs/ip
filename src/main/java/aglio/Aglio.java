@@ -66,27 +66,21 @@ public class Aglio {
                 } else if (line.startsWith("todo ")) {
                     String description = line.substring(5);
                     tasks[taskCount] = new Todo(description);
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + tasks[taskCount]);
                     taskCount++;
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    printTaskAdded(tasks[taskCount - 1], taskCount);
                 } else if (line.startsWith("deadline ")) {
                     String rest = line.substring(9);
                     String[] parts = rest.split(" /by ", 2);
                     tasks[taskCount] = new Deadline(parts[0], parts[1]);
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + tasks[taskCount]);
                     taskCount++;
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    printTaskAdded(tasks[taskCount - 1], taskCount);
                 } else if (line.startsWith("event ")) {
                     String rest = line.substring(6);
                     String[] parts = rest.split(" /from ", 2);
                     String[] timeParts = parts[1].split(" /to ", 2);
                     tasks[taskCount] = new Event(parts[0], timeParts[0], timeParts[1]);
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   " + tasks[taskCount]);
                     taskCount++;
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    printTaskAdded(tasks[taskCount - 1], taskCount);
                 } else {
                     // Store the task and confirm
                     tasks[taskCount] = new Task(line);
@@ -102,5 +96,12 @@ public class Aglio {
         System.out.println(DIVIDER);
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println(DIVIDER);
+    }
+
+    /** Prints a confirmation message after a task has been added. */
+    private static void printTaskAdded(Task task, int taskCount) {
+        System.out.println(" Got it. I've added this task:");
+        System.out.println("   " + task);
+        System.out.println(" Now you have " + taskCount + " tasks in the list.");
     }
 }
