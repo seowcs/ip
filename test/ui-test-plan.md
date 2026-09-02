@@ -1,0 +1,220 @@
+# UI Test Plan
+
+## Test 1: Add a todo
+
+**Aim:** Verify that the `todo` command creates a Todo task with the `[T]` prefix.
+
+```input
+todo borrow book
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 2: Add a deadline
+
+**Aim:** Verify that the `deadline` command creates a Deadline task with the `[D]` prefix and `(by: ...)` suffix.
+
+```input
+deadline return book /by Sunday
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Sunday)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 3: Add an event
+
+**Aim:** Verify that the `event` command creates an Event task with the `[E]` prefix and `(from: ... to: ...)` suffix.
+
+```input
+event project meeting /from Mon 2pm /to 4pm
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 4: List multiple task types
+
+**Aim:** Verify that `list` displays all task types with correct prefixes and numbering.
+
+```input
+todo borrow book
+deadline return book /by Sunday
+event project meeting /from Mon 2pm /to 4pm
+list
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Sunday)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] borrow book
+ 2.[D][ ] return book (by: Sunday)
+ 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 5: Mark and unmark
+
+**Aim:** Verify that `mark` and `unmark` toggle a task's done status and display the correct icon.
+
+```input
+todo borrow book
+mark 1
+unmark 1
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [T][X] borrow book
+____________________________________________________________
+____________________________________________________________
+ OK, I've marked this task as not done yet:
+   [T][ ] borrow book
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 6: Invalid mark input
+
+**Aim:** Verify that `mark` with a non-numeric argument shows an error instead of crashing.
+
+```input
+todo borrow book
+mark abc
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Please provide a valid task number. Usage: mark <task number>
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
