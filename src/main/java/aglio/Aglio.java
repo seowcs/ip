@@ -75,6 +75,15 @@ public class Aglio {
                     System.out.println("   " + tasks[taskCount]);
                     taskCount++;
                     System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                } else if (line.startsWith("event ")) {
+                    String rest = line.substring(6);
+                    String[] parts = rest.split(" /from ", 2);
+                    String[] timeParts = parts[1].split(" /to ", 2);
+                    tasks[taskCount] = new Event(parts[0], timeParts[0], timeParts[1]);
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + tasks[taskCount]);
+                    taskCount++;
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
                 } else {
                     // Store the task and confirm
                     tasks[taskCount] = new Task(line);
