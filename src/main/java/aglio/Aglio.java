@@ -43,20 +43,34 @@ public class Aglio {
                         System.out.println(" " + (i + 1) + "." + tasks[i]);
                     }
                 } else if (line.startsWith("mark ")) {
-                    // Mark a task as done by its 1-based number
-                    int index = Integer.parseInt(line.substring(5)) - 1;
-                    tasks[index].markAsDone();
-                    System.out.println(" Nice! I've marked this task as done:");
-                    System.out.println("   " + tasks[index]);
+                    try {
+                        int index = Integer.parseInt(line.substring(5)) - 1;
+                        tasks[index].markAsDone();
+                        System.out.println(" Nice! I've marked this task as done:");
+                        System.out.println("   " + tasks[index]);
+                    } catch (NumberFormatException e) {
+                        System.out.println(" Please provide a valid task number. Usage: mark <task number>");
+                    }
                 } else if (line.startsWith("unmark ")) {
-                    // Mark a task as not done by its 1-based number
-                    int index = Integer.parseInt(line.substring(7)) - 1;
-                    tasks[index].markAsNotDone();
-                    System.out.println(" OK, I've marked this task as not done yet:");
-                    System.out.println("   " + tasks[index]);
+                    try {
+                        int index = Integer.parseInt(line.substring(7)) - 1;
+                        tasks[index].markAsNotDone();
+                        System.out.println(" OK, I've marked this task as not done yet:");
+                        System.out.println("   " + tasks[index]);
+                    } catch (NumberFormatException e) {
+                        System.out.println(" Please provide a valid task number. Usage: unmark <task number>");
+                    }
                 } else if (line.startsWith("todo ")) {
                     String description = line.substring(5);
                     tasks[taskCount] = new Todo(description);
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   " + tasks[taskCount]);
+                    taskCount++;
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                } else if (line.startsWith("deadline ")) {
+                    String rest = line.substring(9);
+                    String[] parts = rest.split(" /by ", 2);
+                    tasks[taskCount] = new Deadline(parts[0], parts[1]);
                     System.out.println(" Got it. I've added this task:");
                     System.out.println("   " + tasks[taskCount]);
                     taskCount++;
