@@ -4,7 +4,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:se-education.org)",
       "Bash(javac -d out src/main/java/aglio/*.java)",
-      "Bash(java -cp out aglio.Aglio)"
+      "Bash(java -cp out aglio.Aglio)",
+      "WebFetch(domain:nus-cs2113-ay2627-s1.github.io)"
     ]
   }
 }
