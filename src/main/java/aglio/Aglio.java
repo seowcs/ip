@@ -48,18 +48,28 @@ public class Aglio {
                 } else if (line.startsWith("mark ")) {
                     try {
                         int index = Integer.parseInt(line.substring(5)) - 1;
-                        tasks[index].markAsDone();
-                        System.out.println(" Nice! I've marked this task as done:");
-                        System.out.println("   " + tasks[index]);
+                        if (index < 0 || index >= taskCount) {
+                            System.out.println(" OOPS!!! Task number " + (index + 1)
+                                    + " does not exist. You have " + taskCount + " tasks.");
+                        } else {
+                            tasks[index].markAsDone();
+                            System.out.println(" Nice! I've marked this task as done:");
+                            System.out.println("   " + tasks[index]);
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println(" Please provide a valid task number. Usage: mark <task number>");
                     }
                 } else if (line.startsWith("unmark ")) {
                     try {
                         int index = Integer.parseInt(line.substring(7)) - 1;
-                        tasks[index].markAsNotDone();
-                        System.out.println(" OK, I've marked this task as not done yet:");
-                        System.out.println("   " + tasks[index]);
+                        if (index < 0 || index >= taskCount) {
+                            System.out.println(" OOPS!!! Task number " + (index + 1)
+                                    + " does not exist. You have " + taskCount + " tasks.");
+                        } else {
+                            tasks[index].markAsNotDone();
+                            System.out.println(" OK, I've marked this task as not done yet:");
+                            System.out.println("   " + tasks[index]);
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println(" Please provide a valid task number. Usage: unmark <task number>");
                     }
