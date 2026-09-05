@@ -334,3 +334,93 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Test 11: Deadline missing /by
+
+**Aim:** Verify that a `deadline` without the `/by` clause shows an error instead of crashing.
+
+```input
+deadline return book
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! A deadline requires a /by clause.
+ Usage: deadline <description> /by <date>
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 12: Event missing /from
+
+**Aim:** Verify that an `event` without the `/from` clause shows an error instead of crashing.
+
+```input
+event project meeting
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! An event requires /from and /to clauses.
+ Usage: event <description> /from <start> /to <end>
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 13: Event missing /to
+
+**Aim:** Verify that an `event` with `/from` but no `/to` shows an error instead of crashing.
+
+```input
+event project meeting /from Mon 2pm
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! An event requires a /to clause.
+ Usage: event <description> /from <start> /to <end>
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
