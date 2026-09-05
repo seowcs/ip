@@ -212,9 +212,335 @@ ____________________________________________________________
  Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
- Please provide a valid task number. Usage: mark <task number>
+ OOPS!!! Please provide a valid task number. Usage: mark <task number>
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Test 7: Empty todo description
+
+**Aim:** Verify that `todo` with no description shows an error instead of creating a task.
+
+```input
+todo
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! The description of a todo cannot be empty.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 8: Unknown command
+
+**Aim:** Verify that an unrecognized command shows an error instead of being added as a task.
+
+```input
+blah
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! I'm sorry, but I don't know what that means :-(
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 9: Empty deadline description
+
+**Aim:** Verify that `deadline` with no description shows an error instead of crashing.
+
+```input
+deadline
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! The description of a deadline cannot be empty.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 10: Empty event description
+
+**Aim:** Verify that `event` with no description shows an error instead of crashing.
+
+```input
+event
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! The description of an event cannot be empty.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 11: Deadline missing /by
+
+**Aim:** Verify that a `deadline` without the `/by` clause shows an error instead of crashing.
+
+```input
+deadline return book
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! A deadline requires a /by clause.
+ Usage: deadline <description> /by <date>
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 12: Event missing /from
+
+**Aim:** Verify that an `event` without the `/from` clause shows an error instead of crashing.
+
+```input
+event project meeting
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! An event requires /from and /to clauses.
+ Usage: event <description> /from <start> /to <end>
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 13: Event missing /to
+
+**Aim:** Verify that an `event` with `/from` but no `/to` shows an error instead of crashing.
+
+```input
+event project meeting /from Mon 2pm
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! An event requires a /to clause.
+ Usage: event <description> /from <start> /to <end>
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 14: Mark index out of range (too low)
+
+**Aim:** Verify that `mark 0` shows an error instead of crashing.
+
+```input
+todo borrow book
+mark 0
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Task number 0 does not exist. You have 1 tasks.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 15: Mark index out of range (too high)
+
+**Aim:** Verify that `mark 5` with only 1 task shows an error instead of crashing.
+
+```input
+todo borrow book
+mark 5
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Task number 5 does not exist. You have 1 tasks.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 16: Unmark index out of range
+
+**Aim:** Verify that `unmark` with an out-of-range index shows an error instead of crashing.
+
+```input
+todo borrow book
+unmark 3
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Task number 3 does not exist. You have 1 tasks.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 17: Task list full (manual)
+
+**Aim:** Verify that adding more than 100 tasks shows an error instead of crashing.
+
+This test requires piping 101 task commands and is too large for inline
+expected output. Run manually with:
+
+```bash
+{ for i in $(seq 1 100); do echo "todo task$i"; done; echo "todo overflow"; echo "bye"; } | java -cp out aglio.Aglio
+```
+
+**Expected:** The 101st task prints
+`OOPS!!! Task list is full. You cannot add more than 100 tasks.`
+and the program exits normally.
