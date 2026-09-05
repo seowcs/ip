@@ -77,19 +77,34 @@ public class Aglio {
                 } else if (line.startsWith("deadline ")) {
                     String rest = line.substring(9);
                     String[] parts = rest.split(" /by ", 2);
-                    tasks[taskCount] = new Deadline(parts[0], parts[1]);
-                    taskCount++;
-                    printTaskAdded(tasks[taskCount - 1], taskCount);
+                    if (parts.length < 2) {
+                        System.out.println(" OOPS!!! A deadline requires a /by clause.");
+                        System.out.println(" Usage: deadline <description> /by <date>");
+                    } else {
+                        tasks[taskCount] = new Deadline(parts[0], parts[1]);
+                        taskCount++;
+                        printTaskAdded(tasks[taskCount - 1], taskCount);
+                    }
                 } else if (line.equals("event")
                         || (line.startsWith("event ") && line.substring(6).trim().isEmpty())) {
                     System.out.println(" OOPS!!! The description of an event cannot be empty.");
                 } else if (line.startsWith("event ")) {
                     String rest = line.substring(6);
                     String[] parts = rest.split(" /from ", 2);
-                    String[] timeParts = parts[1].split(" /to ", 2);
-                    tasks[taskCount] = new Event(parts[0], timeParts[0], timeParts[1]);
-                    taskCount++;
-                    printTaskAdded(tasks[taskCount - 1], taskCount);
+                    if (parts.length < 2) {
+                        System.out.println(" OOPS!!! An event requires /from and /to clauses.");
+                        System.out.println(" Usage: event <description> /from <start> /to <end>");
+                    } else {
+                        String[] timeParts = parts[1].split(" /to ", 2);
+                        if (timeParts.length < 2) {
+                            System.out.println(" OOPS!!! An event requires a /to clause.");
+                            System.out.println(" Usage: event <description> /from <start> /to <end>");
+                        } else {
+                            tasks[taskCount] = new Event(parts[0], timeParts[0], timeParts[1]);
+                            taskCount++;
+                            printTaskAdded(tasks[taskCount - 1], taskCount);
+                        }
+                    }
                 } else {
                     System.out.println(" OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
