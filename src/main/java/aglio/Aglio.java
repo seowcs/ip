@@ -76,6 +76,10 @@ public class Aglio {
                 } else if (line.equals("todo")
                         || (line.startsWith("todo ") && line.substring(5).trim().isEmpty())) {
                     System.out.println(" OOPS!!! The description of a todo cannot be empty.");
+                } else if (taskCount >= MAX_TASKS && (line.startsWith("todo ")
+                        || line.startsWith("deadline ") || line.startsWith("event "))) {
+                    System.out.println(" OOPS!!! Task list is full. You cannot add more than "
+                            + MAX_TASKS + " tasks.");
                 } else if (line.startsWith("todo ")) {
                     String description = line.substring(5);
                     tasks[taskCount] = new Todo(description);
