@@ -1,4 +1,4 @@
-package aglio;
+package aglio.task;
 
 public class Todo extends Task {
 
@@ -11,7 +11,3 @@ public class Todo extends Task {
         return "[T]" + super.toString();
     }
 }
-
-
-
-

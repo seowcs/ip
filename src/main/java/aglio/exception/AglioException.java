@@ -1,4 +1,4 @@
-package aglio;
+package aglio.exception;
 
 /**
  * Represents an error specific to the Aglio chatbot,

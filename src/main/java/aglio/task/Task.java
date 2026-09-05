@@ -1,4 +1,4 @@
-package aglio;
+package aglio.task;
 
 /**
  * Represents a task with a description and a done status.

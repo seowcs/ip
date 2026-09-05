@@ -1,4 +1,4 @@
-package aglio;
+package aglio.task;
 
 public class Deadline extends Task {
 
