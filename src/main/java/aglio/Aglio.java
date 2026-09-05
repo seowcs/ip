@@ -63,6 +63,9 @@ public class Aglio {
                     } catch (NumberFormatException e) {
                         System.out.println(" Please provide a valid task number. Usage: unmark <task number>");
                     }
+                } else if (line.equals("todo")
+                        || (line.startsWith("todo ") && line.substring(5).trim().isEmpty())) {
+                    System.out.println(" OOPS!!! The description of a todo cannot be empty.");
                 } else if (line.startsWith("todo ")) {
                     String description = line.substring(5);
                     tasks[taskCount] = new Todo(description);
@@ -82,10 +85,7 @@ public class Aglio {
                     taskCount++;
                     printTaskAdded(tasks[taskCount - 1], taskCount);
                 } else {
-                    // Store the task and confirm
-                    tasks[taskCount] = new Task(line);
-                    taskCount++;
-                    System.out.println(" added: " + line);
+                    System.out.println(" OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
 
                 System.out.println(DIVIDER);
