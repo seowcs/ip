@@ -71,12 +71,18 @@ public class Aglio {
                     tasks[taskCount] = new Todo(description);
                     taskCount++;
                     printTaskAdded(tasks[taskCount - 1], taskCount);
+                } else if (line.equals("deadline")
+                        || (line.startsWith("deadline ") && line.substring(9).trim().isEmpty())) {
+                    System.out.println(" OOPS!!! The description of a deadline cannot be empty.");
                 } else if (line.startsWith("deadline ")) {
                     String rest = line.substring(9);
                     String[] parts = rest.split(" /by ", 2);
                     tasks[taskCount] = new Deadline(parts[0], parts[1]);
                     taskCount++;
                     printTaskAdded(tasks[taskCount - 1], taskCount);
+                } else if (line.equals("event")
+                        || (line.startsWith("event ") && line.substring(6).trim().isEmpty())) {
+                    System.out.println(" OOPS!!! The description of an event cannot be empty.");
                 } else if (line.startsWith("event ")) {
                     String rest = line.substring(6);
                     String[] parts = rest.split(" /from ", 2);
