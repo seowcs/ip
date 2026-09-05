@@ -529,3 +529,18 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Test 17: Task list full (manual)
+
+**Aim:** Verify that adding more than 100 tasks shows an error instead of crashing.
+
+This test requires piping 101 task commands and is too large for inline
+expected output. Run manually with:
+
+```bash
+{ for i in $(seq 1 100); do echo "todo task$i"; done; echo "todo overflow"; echo "bye"; } | java -cp out aglio.Aglio
+```
+
+**Expected:** The 101st task prints
+`OOPS!!! Task list is full. You cannot add more than 100 tasks.`
+and the program exits normally.
