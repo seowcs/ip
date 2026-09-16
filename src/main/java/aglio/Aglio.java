@@ -6,6 +6,7 @@ import aglio.task.Event;
 import aglio.task.Task;
 import aglio.task.Todo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -13,7 +14,6 @@ import java.util.Scanner;
  * lists them on request, and exits when the user types "bye".
  */
 public class Aglio {
-    private static final int MAX_TASKS = 100;
     private static final String DIVIDER = "____________________________________________________________";
 
     public static void main(String[] args) {
@@ -31,8 +31,7 @@ public class Aglio {
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
 
-        Task[] tasks = new Task[MAX_TASKS];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
         // try-with-resources ensures the scanner is closed when done
         try (Scanner scanner = new Scanner(System.in)) {
@@ -49,31 +48,26 @@ public class Aglio {
                     if (line.equals("list")) {
                         // Print all stored tasks with their done status
                         System.out.println(" Here are the tasks in your list:");
-                        for (int i = 0; i < taskCount; i++) {
-                            System.out.println(" " + (i + 1) + "." + tasks[i]);
+                        for (int i = 0; i < tasks.size(); i++) {
+                            System.out.println(" " + (i + 1) + "." + tasks.get(i));
                         }
                     } else if (line.startsWith("mark ")) {
-                        int index = parseTaskIndex(line.substring(5), taskCount);
-                        tasks[index].markAsDone();
+                        int index = parseTaskIndex(line.substring(5), tasks.size());
+                        tasks.get(index).markAsDone();
                         System.out.println(" Nice! I've marked this task as done:");
-                        System.out.println("   " + tasks[index]);
+                        System.out.println("   " + tasks.get(index));
                     } else if (line.startsWith("unmark ")) {
-                        int index = parseTaskIndex(line.substring(7), taskCount);
-                        tasks[index].markAsNotDone();
+                        int index = parseTaskIndex(line.substring(7), tasks.size());
+                        tasks.get(index).markAsNotDone();
                         System.out.println(" OK, I've marked this task as not done yet:");
-                        System.out.println("   " + tasks[index]);
+                        System.out.println("   " + tasks.get(index));
                     } else if (line.equals("todo")
                             || (line.startsWith("todo ") && line.substring(5).trim().isEmpty())) {
                         throw new AglioException("The description of a todo cannot be empty.");
-                    } else if (taskCount >= MAX_TASKS && (line.startsWith("todo ")
-                            || line.startsWith("deadline ") || line.startsWith("event "))) {
-                        throw new AglioException("Task list is full. You cannot add more than "
-                                + MAX_TASKS + " tasks.");
                     } else if (line.startsWith("todo ")) {
                         String description = line.substring(5);
-                        tasks[taskCount] = new Todo(description);
-                        taskCount++;
-                        printTaskAdded(tasks[taskCount - 1], taskCount);
+                        tasks.add(new Todo(description));
+                        printTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
                     } else if (line.equals("deadline")
                             || (line.startsWith("deadline ") && line.substring(9).trim().isEmpty())) {
                         throw new AglioException("The description of a deadline cannot be empty.");
@@ -84,9 +78,8 @@ public class Aglio {
                             throw new AglioException("A deadline requires a /by clause.\n"
                                     + " Usage: deadline <description> /by <date>");
                         }
-                        tasks[taskCount] = new Deadline(parts[0], parts[1]);
-                        taskCount++;
-                        printTaskAdded(tasks[taskCount - 1], taskCount);
+                        tasks.add(new Deadline(parts[0], parts[1]));
+                        printTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
                     } else if (line.equals("event")
                             || (line.startsWith("event ") && line.substring(6).trim().isEmpty())) {
                         throw new AglioException("The description of an event cannot be empty.");
@@ -102,9 +95,8 @@ public class Aglio {
                             throw new AglioException("An event requires a /to clause.\n"
                                     + " Usage: event <description> /from <start> /to <end>");
                         }
-                        tasks[taskCount] = new Event(parts[0], timeParts[0], timeParts[1]);
-                        taskCount++;
-                        printTaskAdded(tasks[taskCount - 1], taskCount);
+                        tasks.add(new Event(parts[0], timeParts[0], timeParts[1]));
+                        printTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
                     } else {
                         throw new AglioException(
                                 "I'm sorry, but I don't know what that means :-(");
