@@ -27,6 +27,14 @@ public class Task {
         this.isDone = false;
     }
 
+    /**
+     * Returns a pipe-delimited string representation of this task
+     * suitable for saving to a file.
+     */
+    public String toFileString() {
+        return (isDone ? "1" : "0") + " | " + description;
+    }
+
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
