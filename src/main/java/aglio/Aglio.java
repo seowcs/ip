@@ -1,11 +1,13 @@
 package aglio;
 
 import aglio.exception.AglioException;
+import aglio.storage.Storage;
 import aglio.task.Deadline;
 import aglio.task.Event;
 import aglio.task.Task;
 import aglio.task.Todo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -31,7 +33,14 @@ public class Aglio {
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
 
+        Storage storage = new Storage("data/aglio.txt");
         ArrayList<Task> tasks = new ArrayList<>();
+        try {
+            storage.load(tasks);
+        } catch (AglioException e) {
+            System.out.println(" Warning: " + e.getMessage());
+            System.out.println(" Starting with an empty task list.");
+        }
 
         // try-with-resources ensures the scanner is closed when done
         try (Scanner scanner = new Scanner(System.in)) {
@@ -56,11 +65,13 @@ public class Aglio {
                         tasks.get(index).markAsDone();
                         System.out.println(" Nice! I've marked this task as done:");
                         System.out.println("   " + tasks.get(index));
+                        saveTasks(storage, tasks);
                     } else if (line.startsWith("unmark ")) {
                         int index = parseTaskIndex(line.substring(7), tasks.size());
                         tasks.get(index).markAsNotDone();
                         System.out.println(" OK, I've marked this task as not done yet:");
                         System.out.println("   " + tasks.get(index));
+                        saveTasks(storage, tasks);
                     } else if (line.startsWith("delete ")) {
                         int index = parseTaskIndex(line.substring(7), tasks.size());
                         Task removedTask = tasks.remove(index);
@@ -68,6 +79,7 @@ public class Aglio {
                         System.out.println("   " + removedTask);
                         System.out.println(" Now you have " + tasks.size()
                                 + " tasks in the list.");
+                        saveTasks(storage, tasks);
                     } else if (line.equals("todo")
                             || (line.startsWith("todo ") && line.substring(5).trim().isEmpty())) {
                         throw new AglioException("The description of a todo cannot be empty.");
@@ -75,6 +87,7 @@ public class Aglio {
                         String description = line.substring(5);
                         tasks.add(new Todo(description));
                         printTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
+                        saveTasks(storage, tasks);
                     } else if (line.equals("deadline")
                             || (line.startsWith("deadline ") && line.substring(9).trim().isEmpty())) {
                         throw new AglioException("The description of a deadline cannot be empty.");
@@ -87,6 +100,7 @@ public class Aglio {
                         }
                         tasks.add(new Deadline(parts[0], parts[1]));
                         printTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
+                        saveTasks(storage, tasks);
                     } else if (line.equals("event")
                             || (line.startsWith("event ") && line.substring(6).trim().isEmpty())) {
                         throw new AglioException("The description of an event cannot be empty.");
@@ -104,6 +118,7 @@ public class Aglio {
                         }
                         tasks.add(new Event(parts[0], timeParts[0], timeParts[1]));
                         printTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
+                        saveTasks(storage, tasks);
                     } else {
                         throw new AglioException(
                                 "I'm sorry, but I don't know what that means :-(");
@@ -143,6 +158,15 @@ public class Aglio {
                     + " does not exist. You have " + taskCount + " tasks.");
         }
         return index;
+    }
+
+    /** Saves all tasks to disk, printing a warning if the write fails. */
+    private static void saveTasks(Storage storage, ArrayList<Task> tasks) {
+        try {
+            storage.save(tasks);
+        } catch (IOException e) {
+            System.out.println(" Warning: Could not save tasks: " + e.getMessage());
+        }
     }
 
     /** Prints a confirmation message after a task has been added. */
