@@ -530,17 +530,168 @@ Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
 
-## Test 17: Task list full (manual)
+## Test 17: Delete a task
 
-**Aim:** Verify that adding more than 100 tasks shows an error instead of crashing.
+**Aim:** Verify that `delete` removes a task, shows a confirmation, and renumbers the remaining tasks.
 
-This test requires piping 101 task commands and is too large for inline
-expected output. Run manually with:
-
-```bash
-{ for i in $(seq 1 100); do echo "todo task$i"; done; echo "todo overflow"; echo "bye"; } | java -cp out aglio.Aglio
+```input
+todo borrow book
+todo join sports club
+todo read book
+delete 2
+list
+bye
 ```
 
-**Expected:** The 101st task prints
-`OOPS!!! Task list is full. You cannot add more than 100 tasks.`
-and the program exits normally.
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] join sports club
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 3 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] join sports club
+ Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] borrow book
+ 2.[T][ ] read book
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 18: Delete with invalid index
+
+**Aim:** Verify that `delete` with a non-numeric argument shows an error.
+
+```input
+todo borrow book
+delete abc
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Please provide a valid task number. Usage: mark <task number>
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 19: Delete with out-of-range index
+
+**Aim:** Verify that `delete 5` with only 1 task shows an error.
+
+```input
+todo borrow book
+delete 5
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Task number 5 does not exist. You have 1 tasks.
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 20: Delete the only task
+
+**Aim:** Verify that deleting the sole task results in 0 tasks and an empty list.
+
+```input
+todo borrow book
+delete 1
+list
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] borrow book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] borrow book
+ Now you have 0 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
