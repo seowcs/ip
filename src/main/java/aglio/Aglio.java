@@ -61,6 +61,13 @@ public class Aglio {
                         tasks.get(index).markAsNotDone();
                         System.out.println(" OK, I've marked this task as not done yet:");
                         System.out.println("   " + tasks.get(index));
+                    } else if (line.startsWith("delete ")) {
+                        int index = parseTaskIndex(line.substring(7), tasks.size());
+                        Task removedTask = tasks.remove(index);
+                        System.out.println(" Noted. I've removed this task:");
+                        System.out.println("   " + removedTask);
+                        System.out.println(" Now you have " + tasks.size()
+                                + " tasks in the list.");
                     } else if (line.equals("todo")
                             || (line.startsWith("todo ") && line.substring(5).trim().isEmpty())) {
                         throw new AglioException("The description of a todo cannot be empty.");
