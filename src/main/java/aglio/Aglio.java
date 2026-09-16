@@ -6,6 +6,9 @@ import aglio.task.Event;
 import aglio.task.Task;
 import aglio.task.Todo;
 
+import aglio.storage.Storage;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -31,8 +34,15 @@ public class Aglio {
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
 
+        Storage storage = new Storage("data/aglio.txt");
         Task[] tasks = new Task[MAX_TASKS];
         int taskCount = 0;
+        try {
+            taskCount = storage.load(tasks);
+        } catch (AglioException e) {
+            System.out.println(" Warning: " + e.getMessage());
+            System.out.println(" Starting with an empty task list.");
+        }
 
         // try-with-resources ensures the scanner is closed when done
         try (Scanner scanner = new Scanner(System.in)) {
@@ -57,11 +67,13 @@ public class Aglio {
                         tasks[index].markAsDone();
                         System.out.println(" Nice! I've marked this task as done:");
                         System.out.println("   " + tasks[index]);
+                        saveTasks(storage, tasks, taskCount);
                     } else if (line.startsWith("unmark ")) {
                         int index = parseTaskIndex(line.substring(7), taskCount);
                         tasks[index].markAsNotDone();
                         System.out.println(" OK, I've marked this task as not done yet:");
                         System.out.println("   " + tasks[index]);
+                        saveTasks(storage, tasks, taskCount);
                     } else if (line.equals("todo")
                             || (line.startsWith("todo ") && line.substring(5).trim().isEmpty())) {
                         throw new AglioException("The description of a todo cannot be empty.");
@@ -74,6 +86,7 @@ public class Aglio {
                         tasks[taskCount] = new Todo(description);
                         taskCount++;
                         printTaskAdded(tasks[taskCount - 1], taskCount);
+                        saveTasks(storage, tasks, taskCount);
                     } else if (line.equals("deadline")
                             || (line.startsWith("deadline ") && line.substring(9).trim().isEmpty())) {
                         throw new AglioException("The description of a deadline cannot be empty.");
@@ -87,6 +100,7 @@ public class Aglio {
                         tasks[taskCount] = new Deadline(parts[0], parts[1]);
                         taskCount++;
                         printTaskAdded(tasks[taskCount - 1], taskCount);
+                        saveTasks(storage, tasks, taskCount);
                     } else if (line.equals("event")
                             || (line.startsWith("event ") && line.substring(6).trim().isEmpty())) {
                         throw new AglioException("The description of an event cannot be empty.");
@@ -105,6 +119,7 @@ public class Aglio {
                         tasks[taskCount] = new Event(parts[0], timeParts[0], timeParts[1]);
                         taskCount++;
                         printTaskAdded(tasks[taskCount - 1], taskCount);
+                        saveTasks(storage, tasks, taskCount);
                     } else {
                         throw new AglioException(
                                 "I'm sorry, but I don't know what that means :-(");
@@ -144,6 +159,15 @@ public class Aglio {
                     + " does not exist. You have " + taskCount + " tasks.");
         }
         return index;
+    }
+
+    /** Saves all tasks to disk, printing a warning if the write fails. */
+    private static void saveTasks(Storage storage, Task[] tasks, int taskCount) {
+        try {
+            storage.save(tasks, taskCount);
+        } catch (IOException e) {
+            System.out.println(" Warning: Could not save tasks: " + e.getMessage());
+        }
     }
 
     /** Prints a confirmation message after a task has been added. */
