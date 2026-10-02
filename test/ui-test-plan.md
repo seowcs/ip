@@ -33,10 +33,10 @@ ____________________________________________________________
 
 ## Test 2: Add a deadline
 
-**Aim:** Verify that the `deadline` command creates a Deadline task with the `[D]` prefix and `(by: ...)` suffix.
+**Aim:** Verify that the `deadline` command creates a Deadline task with the `[D]` prefix and a formatted date in the `(by: ...)` suffix.
 
 ```input
-deadline return book /by Sunday
+deadline return book /by 2019-10-15
 bye
 ```
 
@@ -54,7 +54,7 @@ What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Oct 15 2019)
  Now you have 1 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -99,7 +99,7 @@ ____________________________________________________________
 
 ```input
 todo borrow book
-deadline return book /by Sunday
+deadline return book /by 2019-10-15
 event project meeting /from Mon 2pm /to 4pm
 list
 bye
@@ -124,7 +124,7 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Oct 15 2019)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
@@ -135,7 +135,7 @@ ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] borrow book
- 2.[D][ ] return book (by: Sunday)
+ 2.[D][ ] return book (by: Oct 15 2019)
  3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
@@ -690,6 +690,35 @@ ____________________________________________________________
 ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test 21: Deadline with invalid date format
+
+**Aim:** Verify that a deadline with an invalid date format (e.g. a plain word instead of `yyyy-MM-dd`) shows an error.
+
+```input
+deadline return book /by Sunday
+bye
+```
+
+```expected
+____________________________________________________________
+    _         _ _       
+   / \   __ _| (_) ___  
+  / _ \ / _` | | |/ _ \ 
+ / ___ \ (_| | | | (_) |
+/_/   \_\__, |_|_|\___/ 
+        |___/           
+
+Hello, I am Aglio.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+ OOPS!!! Invalid date format. Please use yyyy-MM-dd (e.g. 2019-10-15).
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

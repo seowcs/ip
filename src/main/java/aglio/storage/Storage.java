@@ -7,6 +7,8 @@ import aglio.task.Task;
 import aglio.task.Todo;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -103,7 +105,11 @@ public class Storage {
             if (parts.length < 4) {
                 throw new AglioException("Corrupted deadline in save file: " + line);
             }
-            task = new Deadline(description, parts[3].trim());
+            try {
+                task = new Deadline(description, LocalDate.parse(parts[3].trim()));
+            } catch (DateTimeParseException e) {
+                throw new AglioException("Corrupted deadline date in save file: " + line);
+            }
             break;
         case "E":
             if (parts.length < 5) {

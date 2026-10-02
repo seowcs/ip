@@ -11,7 +11,13 @@
       "WebFetch(domain:github.com)",
       "Bash(cmd.exe /c \"where gh\")",
       "Bash(curl -sL \"https://api.github.com/repos/NUS-CS2113-AY2627-S1/ip/pulls/97\" -H \"Accept: application/vnd.github.v3+json\")",
-      "WebFetch(domain:patch-diff.githubusercontent.com)"
+      "WebFetch(domain:patch-diff.githubusercontent.com)",
+      "WebSearch",
+      "Bash(curl -sL -o /tmp/gradle-8.12-bin.zip https://services.gradle.org/distributions/gradle-8.12-bin.zip)",
+      "Read(//tmp/**)",
+      "Bash(unzip -qo gradle-9.7.1-bin.zip)",
+      "Bash(/tmp/gradle-9.7.1/bin/gradle wrapper *)",
+      "Bash(./gradlew shadowJar)"
     ]
   }
 }
