@@ -1,7 +1,13 @@
 package aglio.task;
 
+/** Represents a basic task with no date or time attached. */
 public class Todo extends Task {
 
+    /**
+     * Creates a Todo task with the given description.
+     *
+     * @param description what the task is about
+     */
     public Todo(String description) {
         super(description);
     }

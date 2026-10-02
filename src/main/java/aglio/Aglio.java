@@ -52,6 +52,7 @@ public class Aglio {
         ui.close();
     }
 
+    /** Entry point for the Aglio chatbot application. */
     public static void main(String[] args) {
         new Aglio("data/aglio.txt").run();
     }
