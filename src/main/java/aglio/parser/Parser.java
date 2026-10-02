@@ -4,6 +4,7 @@ import aglio.command.AddCommand;
 import aglio.command.Command;
 import aglio.command.DeleteCommand;
 import aglio.command.ExitCommand;
+import aglio.command.FindCommand;
 import aglio.command.ListCommand;
 import aglio.command.MarkCommand;
 import aglio.command.UnmarkCommand;
@@ -85,6 +86,12 @@ public class Parser {
                         + " Usage: event <description> /from <start> /to <end>");
             }
             return new AddCommand(new Event(parts[0], timeParts[0], timeParts[1]));
+        } else if (fullCommand.equals("find")
+                || (fullCommand.startsWith("find ") && fullCommand.substring(5).trim().isEmpty())) {
+            throw new AglioException("The keyword for find cannot be empty.");
+        } else if (fullCommand.startsWith("find ")) {
+            String keyword = fullCommand.substring(5);
+            return new FindCommand(keyword);
         } else {
             throw new AglioException(
                     "I'm sorry, but I don't know what that means :-(");

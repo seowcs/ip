@@ -3,6 +3,7 @@ package aglio.ui;
 import aglio.task.Task;
 import aglio.task.TaskList;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -111,6 +112,18 @@ public class Ui {
         System.out.println(" Got it. I've added this task:");
         System.out.println("   " + task);
         System.out.println(" Now you have " + taskCount + " tasks in the list.");
+    }
+
+    /**
+     * Prints the tasks that match a find query, with 1-based numbering.
+     *
+     * @param matches the list of tasks that matched the keyword
+     */
+    public void showFindResults(ArrayList<Task> matches) {
+        System.out.println(" Here are the matching tasks in your list:");
+        for (int i = 0; i < matches.size(); i++) {
+            System.out.println(" " + (i + 1) + "." + matches.get(i));
+        }
     }
 
     /**

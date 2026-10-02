@@ -12,6 +12,15 @@ public class Task {
         this.isDone = false;
     }
 
+    /**
+     * Returns the description of this task.
+     *
+     * @return the task description
+     */
+    public String getDescription() {
+        return description;
+    }
+
     /** Returns "X" if the task is done, or a space " " if not. */
     public String getStatusIcon() {
         return (isDone ? "X" : " ");
