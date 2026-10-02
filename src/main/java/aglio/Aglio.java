@@ -5,11 +5,11 @@ import aglio.storage.Storage;
 import aglio.task.Deadline;
 import aglio.task.Event;
 import aglio.task.Task;
+import aglio.task.TaskList;
 import aglio.task.Todo;
 import aglio.ui.Ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Aglio is a personal chatbot that stores tasks entered by the user,
@@ -23,11 +23,12 @@ public class Aglio {
         ui.showGreeting();
 
         Storage storage = new Storage("data/aglio.txt");
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks;
         try {
-            storage.load(tasks);
+            tasks = new TaskList(storage.load());
         } catch (AglioException e) {
             ui.showLoadingError(e.getMessage());
+            tasks = new TaskList();
         }
 
         while (ui.hasNextCommand()) {
@@ -43,27 +44,27 @@ public class Aglio {
                 if (line.equals("list")) {
                     ui.showTaskList(tasks);
                 } else if (line.startsWith("mark ")) {
-                    int index = parseTaskIndex(line.substring(5), tasks.size());
-                    tasks.get(index).markAsDone();
-                    ui.showMarkDone(tasks.get(index));
+                    int index = parseTaskIndex(line.substring(5), tasks.getSize());
+                    tasks.getTask(index).markAsDone();
+                    ui.showMarkDone(tasks.getTask(index));
                     saveTasks(storage, tasks, ui);
                 } else if (line.startsWith("unmark ")) {
-                    int index = parseTaskIndex(line.substring(7), tasks.size());
-                    tasks.get(index).markAsNotDone();
-                    ui.showMarkNotDone(tasks.get(index));
+                    int index = parseTaskIndex(line.substring(7), tasks.getSize());
+                    tasks.getTask(index).markAsNotDone();
+                    ui.showMarkNotDone(tasks.getTask(index));
                     saveTasks(storage, tasks, ui);
                 } else if (line.startsWith("delete ")) {
-                    int index = parseTaskIndex(line.substring(7), tasks.size());
-                    Task removedTask = tasks.remove(index);
-                    ui.showDelete(removedTask, tasks.size());
+                    int index = parseTaskIndex(line.substring(7), tasks.getSize());
+                    Task removedTask = tasks.deleteTask(index);
+                    ui.showDelete(removedTask, tasks.getSize());
                     saveTasks(storage, tasks, ui);
                 } else if (line.equals("todo")
                         || (line.startsWith("todo ") && line.substring(5).trim().isEmpty())) {
                     throw new AglioException("The description of a todo cannot be empty.");
                 } else if (line.startsWith("todo ")) {
                     String description = line.substring(5);
-                    tasks.add(new Todo(description));
-                    ui.showTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
+                    tasks.addTask(new Todo(description));
+                    ui.showTaskAdded(tasks.getTask(tasks.getSize() - 1), tasks.getSize());
                     saveTasks(storage, tasks, ui);
                 } else if (line.equals("deadline")
                         || (line.startsWith("deadline ") && line.substring(9).trim().isEmpty())) {
@@ -75,8 +76,8 @@ public class Aglio {
                         throw new AglioException("A deadline requires a /by clause.\n"
                                 + " Usage: deadline <description> /by <date>");
                     }
-                    tasks.add(new Deadline(parts[0], parts[1]));
-                    ui.showTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
+                    tasks.addTask(new Deadline(parts[0], parts[1]));
+                    ui.showTaskAdded(tasks.getTask(tasks.getSize() - 1), tasks.getSize());
                     saveTasks(storage, tasks, ui);
                 } else if (line.equals("event")
                         || (line.startsWith("event ") && line.substring(6).trim().isEmpty())) {
@@ -93,8 +94,8 @@ public class Aglio {
                         throw new AglioException("An event requires a /to clause.\n"
                                 + " Usage: event <description> /from <start> /to <end>");
                     }
-                    tasks.add(new Event(parts[0], timeParts[0], timeParts[1]));
-                    ui.showTaskAdded(tasks.get(tasks.size() - 1), tasks.size());
+                    tasks.addTask(new Event(parts[0], timeParts[0], timeParts[1]));
+                    ui.showTaskAdded(tasks.getTask(tasks.getSize() - 1), tasks.getSize());
                     saveTasks(storage, tasks, ui);
                 } else {
                     throw new AglioException(
@@ -138,12 +139,12 @@ public class Aglio {
      * Saves all tasks to disk, printing a warning via the Ui if the write fails.
      *
      * @param storage the storage handler
-     * @param tasks   the list of tasks to save
+     * @param tasks   the task list to save
      * @param ui      the ui handler for displaying errors
      */
-    private static void saveTasks(Storage storage, ArrayList<Task> tasks, Ui ui) {
+    private static void saveTasks(Storage storage, TaskList tasks, Ui ui) {
         try {
-            storage.save(tasks);
+            storage.save(tasks.getTasks());
         } catch (IOException e) {
             ui.showSaveError(e.getMessage());
         }

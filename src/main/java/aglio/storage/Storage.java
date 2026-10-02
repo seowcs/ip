@@ -49,15 +49,16 @@ public class Storage {
     }
 
     /**
-     * Loads tasks from the data file into the given list.
-     * Does nothing if the file does not exist (first run).
+     * Loads tasks from the data file and returns them as a list.
+     * Returns an empty list if the file does not exist (first run).
      *
-     * @param tasks the list to populate
+     * @return the list of tasks read from the file
      * @throws AglioException if the file exists but contains malformed data
      */
-    public void load(ArrayList<Task> tasks) throws AglioException {
+    public ArrayList<Task> load() throws AglioException {
+        ArrayList<Task> tasks = new ArrayList<>();
         if (!Files.exists(filePath)) {
-            return;
+            return tasks;
         }
 
         List<String> lines;
@@ -73,6 +74,7 @@ public class Storage {
             }
             tasks.add(parseLine(line));
         }
+        return tasks;
     }
 
     /**
