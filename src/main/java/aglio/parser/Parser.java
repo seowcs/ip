@@ -12,6 +12,9 @@ import aglio.task.Deadline;
 import aglio.task.Event;
 import aglio.task.Todo;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 /**
  * Deals with making sense of user commands.
  * Parses the raw command string and returns the corresponding
@@ -57,7 +60,14 @@ public class Parser {
                 throw new AglioException("A deadline requires a /by clause.\n"
                         + " Usage: deadline <description> /by <date>");
             }
-            return new AddCommand(new Deadline(parts[0], parts[1]));
+            LocalDate date;
+            try {
+                date = LocalDate.parse(parts[1].trim());
+            } catch (DateTimeParseException e) {
+                throw new AglioException(
+                        "Invalid date format. Please use yyyy-MM-dd (e.g. 2019-10-15).");
+            }
+            return new AddCommand(new Deadline(parts[0], date));
         } else if (fullCommand.equals("event")
                 || (fullCommand.startsWith("event ")
                         && fullCommand.substring(6).trim().isEmpty())) {
