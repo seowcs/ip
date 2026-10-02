@@ -34,11 +34,12 @@ public class Ui {
         System.out.println(DIVIDER);
     }
 
-    /** Prints the goodbye message, wrapped in dividers. */
+    /**
+     * Prints the goodbye message.
+     * The surrounding dividers are provided by the main command loop.
+     */
     public void showGoodbye() {
-        System.out.println(DIVIDER);
         System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(DIVIDER);
     }
 
     /**

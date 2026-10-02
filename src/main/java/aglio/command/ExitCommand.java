@@ -6,14 +6,14 @@ import aglio.ui.Ui;
 
 /**
  * Represents the "bye" command that signals the program to exit.
- * Does nothing when executed; its purpose is to return true from
- * {@link #isExit()} so the main loop knows to stop.
+ * Prints the goodbye message, then returns true from {@link #isExit()}
+ * so the main loop knows to stop.
  */
 public class ExitCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        // Nothing to do — the main loop checks isExit() to stop.
+        ui.showGoodbye();
     }
 
     @Override

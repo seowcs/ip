@@ -1,5 +1,6 @@
 package aglio;
 
+import aglio.command.Command;
 import aglio.exception.AglioException;
 import aglio.parser.Parser;
 import aglio.storage.Storage;
@@ -34,26 +35,20 @@ public class Aglio {
     /** Runs the main command loop until the user types "bye". */
     public void run() {
         ui.showGreeting();
-
-        while (ui.hasNextCommand()) {
-            String line = ui.readCommand();
-
-            if (line.equals("bye")) {
-                break;
-            }
-
-            ui.showDivider();
-
+        boolean isExit = false;
+        while (!isExit) {
             try {
-                Parser.parse(line, tasks, ui, storage);
+                String fullCommand = ui.readCommand();
+                ui.showDivider();
+                Command c = Parser.parse(fullCommand);
+                c.execute(tasks, ui, storage);
+                isExit = c.isExit();
             } catch (AglioException e) {
                 ui.showError(e.getMessage());
+            } finally {
+                ui.showDivider();
             }
-
-            ui.showDivider();
         }
-
-        ui.showGoodbye();
         ui.close();
     }
 
