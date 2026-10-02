@@ -12,6 +12,11 @@ public class FindCommand extends Command {
 
     private final String keyword;
 
+    /**
+     * Creates a FindCommand that searches for the given keyword.
+     *
+     * @param keyword the search term to match against task descriptions
+     */
     public FindCommand(String keyword) {
         this.keyword = keyword;
     }
